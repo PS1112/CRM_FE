@@ -1,0 +1,17 @@
+/* Hide scrollbar for Webkit-based browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+    display: none;
+  }
+
+  
+
+  .css-148bcxa {
+    padding: 20px 0 !important ;
+  }
+
+  .css-1wf8b0h-MuiTabs-flexContainer{
+    justify-content: space-between !important;
+  }
+  .css-jpln7h-MuiTabs-scroller{
+   position: unset !important;
+  }

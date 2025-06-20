@@ -1,0 +1,234 @@
+.nostudent {
+  background-color: #bcebed;
+}
+
+.logoimage {
+  background-color: #d3d9f0;
+}
+
+.table > :not(caption) > * > * {
+  background: transparent !important;
+}
+.img-display-before {
+  height: 100px;
+  width: 100px;
+  /* margin-left: 35px; */
+}
+
+.img-display-after {
+  height: 150px !important;
+  width: 150px !important;
+  border-radius: 100% !important;
+}
+
+.editicon {
+  font-size: 15px !important;
+}
+/* 
+.MuiSwitch-track css-dnkzfa-MuiSwitch-track{
+    
+} */
+
+.css-13cymwt-control {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: #ffffff !important; /* White modal background */
+  border-radius: 8px !important;
+  width: 400px !important;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+  text-align: center;
+  position: relative;
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+h2 {
+  color: #333; /* Darker text color */
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.subscription-input {
+  margin-bottom: 15px;
+}
+
+.subscription-input input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.subscription-input span {
+  display: block;
+  margin-top: 5px;
+  color: #666;
+  font-size: 14px;
+}
+
+.plan-selection h3 {
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.radio-group {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.radio-group label {
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.radio-group input {
+  margin-right: 5px;
+}
+
+.save-btn {
+  background-color: #28a745; /* Green button */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-btn:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+.error-message {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.save-btn:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+
+  /* <==================================> */
+
+  @media (min-width: 600px) {
+    .css-1oqqzyl-MuiContainer-root {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+}
+
+
+
+.pro-sidebar .pro-menu {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.css-1ycxt2a-MuiButtonBase-root-MuiIconButton-root{
+  right: 5px !important;
+}
+
+.css-1m3bo6{
+  margin-left: 0px !important;
+}
+
+.css-1l8icbj {
+    padding-left: 10px !important;
+}
+
+/* .css-1n2mv2k{
+  width: 100% !important;
+} */
+
+.css-ti8np6-MuiContainer-root{
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+.css-19wiwr2-MuiGrid-root {
+  height: 98vh !important;
+}
+
+@media (min-width: 1200px) {
+  .css-1oqqzyl-MuiContainer-root {
+      max-width: 1280px !important;
+  }
+}
+
+
+/* Additional styles for the Dashboard component */
+
+/* Table styles */
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+  border-collapse: collapse;
+}
+
+.table th {
+  font-weight: 600;
+  padding: 12px 8px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table td {
+  padding: 12px 8px;
+  vertical-align: middle;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Resizable column styles */
+.resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 5px;
+  cursor: col-resize;
+}
+
+
+.css-6s8gvz{
+  background-color: #464791 !important;
+}

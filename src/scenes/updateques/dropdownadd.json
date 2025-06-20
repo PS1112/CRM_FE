@@ -1,0 +1,116 @@
+{
+  "Category": [
+    {
+      "label": "Speaking",
+      "value": "Speaking",
+      "subcategory": [
+        {
+          "label": "Read Aloud",
+          "value": "Read Aloud"
+        },
+        {
+          "label": "Repeat Sentence",
+          "value": "Repeat Sentence"
+        },
+        {
+          "label": "Short Answer",
+          "value": "Short Answer"
+        },
+        {
+          "label": "Describe Image",
+          "value": "Describe Image"
+        },
+        {
+          "label": "Retell Lecture",
+          "value": "Retell Lecture"
+        },
+        {
+          "label": "Respond to Situation",
+          "value": "Respond to Situation"
+        }
+      ]
+    },
+    {
+      "label": "Listening",
+      "value": "Listening",
+      "subcategory": [
+        {
+          "label": "Single Answer",
+          "value": "Single Answer"
+        },
+        {
+          "label": "Multiple Answers",
+          "value": "Multiple Answers"
+        },
+        {
+          "label": "Write From Dictation",
+          "value": "Write From Dictation"
+        },
+        {
+          "label": "Highlight Summary",
+          "value": "Highlight Summary"
+        },
+        {
+          "label": "Incorrect Words",
+          "value": "Incorrect Words"
+        },
+        {
+          "label": "Fill in The Blanks",
+          "value": "Fill in The Blanks"
+        },
+        {
+          "label": "Summarize Text",
+          "value": "Summarize Text"
+        },
+        {
+          "label": "Missing Word",
+          "value": "Missing Word"
+        }
+      ]
+    },
+    {
+      "label": "Writing",
+      "value": "Writing",
+      "subcategory": [
+        {
+          "label": "Essay",
+          "value": "Essay"
+        },
+        {
+          "label": "Write Email",
+          "value": "Write Email"
+        },
+        {
+          "label": "Summarize Text",
+          "value": "Summarize Text"
+        }
+      ]
+    },
+    {
+      "label": "Reading",
+      "value": "Reading",
+      "subcategory": [
+        {
+          "label": "Single Answer",
+          "value": "Single Answer"
+        },
+        {
+          "label": "Multiple Answers",
+          "value": "Multiple Answers"
+        },
+        {
+          "label": "Reorder Paragraph",
+          "value": "Reorder Paragraph"
+        },
+        {
+          "label": "Fill in Blanks",
+          "value": "Fill in Blanks"
+        },
+        {
+          "label": "RW Fill in Blanks",
+          "value": "RW Fill in Blanks"
+        }
+      ]
+    }
+  ]
+}

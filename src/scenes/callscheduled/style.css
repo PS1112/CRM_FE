@@ -1,0 +1,20 @@
+#changeButton {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.icon-initial {
+    font-size: 24px;
+}
+
+.icon-changed {
+    font-size: 24px;
+}
+
+.changed {
+    background-color: red;
+}
