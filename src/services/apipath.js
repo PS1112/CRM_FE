@@ -6,6 +6,7 @@ export const API_PATH = {
   },
   ENQUIRY:{
     GET_FRESH_ENQUIRY: "api/v1/basic/get-fresh-query",
+    CHECK_AVAILABILITY: "api/v1/basic/check-availability",
   },
   WEBSITES:{
     ADD_WEBSITE: "api/v1/basic/add-websites",

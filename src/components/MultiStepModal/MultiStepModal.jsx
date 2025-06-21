@@ -12,6 +12,10 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { postApi } from "../../services/axiosInstance";
+import { API_PATH } from "../../services/apipath";
+import { cellStyle, formatTableData, headerStyle, tableColumns } from "../../utils/helper";
+import ResizableTable from "../ResizeableTable/ResizableTable";
 
 const userOptions = [
     { value: "user1", label: "User 1" },
@@ -36,22 +40,38 @@ const MultiStepModal = ({ open, handleClose }) => {
     const [step, setStep] = useState(1);
     const [mobile, setMobile] = useState("");
     const [recordExists, setRecordExists] = useState(false);
-
+    const [tableData, setTableData] = useState([]);
     const [assignUser1, setAssignUser1] = useState(null);
     const [assignUser2, setAssignUser2] = useState(null);
     const [appointmentDate, setAppointmentDate] = useState(null);
     const [followUpDate, setFollowUpDate] = useState(null);
 
     const today = new Date();
-
-    const handleCheckRecord = () => {
-        // Simulated check
-        if (mobile === "9988757678") {
-            setRecordExists(true);
-            toast.success("User Found");
+    
+    const handleCheckRecord = async () => {
+      try {
+        const res = await postApi(API_PATH.ENQUIRY.CHECK_AVAILABILITY, {
+          mobile,
+        });
+        console.log(res, "Response from check availability API");
+        if (res.status === 200) {
+          setRecordExists(true);
+          const queries = res.data.queries ?? [res.data];
+          setTableData(queries.map(formatTableData));
+          toast.success("Record exists!");
         } else {
-            toast.error("User Not Found. Click on Add New.");
+          setRecordExists(false);
+          toast.error("No record found, you can add a new one.");
         }
+      } catch (error) {
+        setRecordExists(false);
+        const errorMsg =
+          error?.response?.data?.message ||
+          error?.message ||
+          "Could not check record, please try again.";
+        toast.error(errorMsg);
+        console.log(error, "Error checking record");
+      }
     };
 
     useEffect(() => {
@@ -81,31 +101,49 @@ const MultiStepModal = ({ open, handleClose }) => {
     };
 
     const renderStep1 = () => (
-        <>
-            <Typography variant="h6" color={"#ffffff"} mb={2}>Kindly First Check Whether Record Exists or Not</Typography>
-            <TextField
-                fullWidth
-                label="Enter Mobile Number"
-                value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
-                type="tel"
-                margin="normal"
-                borderColor="black !important"
-            />
-            <Box display="flex" justifyContent="space-between" mt={2} color={"black"}>
-                <Button variant="contained" onClick={handleCheckRecord}>
-                    Show Availability
-                </Button>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleNext}
-                    disabled={!mobile || recordExists}
-                >
-                    Add New
-                </Button>
-            </Box>
-        </>
+      <>
+        <Typography variant="h6" color={"#ffffff"} mb={2}>
+          Kindly First Check Whether Record Exists or Not
+        </Typography>
+        <TextField
+          fullWidth
+          label="Enter Mobile Number"
+          value={mobile}
+          onChange={(e) => setMobile(e.target.value)}
+          type="tel"
+          margin="normal"
+          borderColor="black !important"
+        />
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          mt={2}
+          mb={2}
+          color={"black"}
+        >
+          <Button variant="contained" onClick={handleCheckRecord}>
+            Show Availability
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleNext}
+            disabled={!mobile || recordExists}
+          >
+            Add New
+          </Button>
+        </Box>
+
+        {recordExists && (
+          <ResizableTable
+            columns={tableColumns}
+            data={tableData}
+            headerStyle={headerStyle}
+            cellStyle={cellStyle}
+            emptyMessage="No inquiry data found"
+          />
+        )}
+      </>
     );
 
     const renderStep2 = () => {

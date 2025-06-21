@@ -35,9 +35,11 @@ import { Close } from "@mui/icons-material";
 import Moment from "react-moment";
 
 // Import ResizableTable component
-import ResizableTable from "./ResizableTable";
-import MultiStepModal from "./MultiStepModal.jsx";
+import ResizableTable from "../../components/ResizeableTable/ResizableTable.jsx";
+
 import moment from "moment";
+import MultiStepModal from "../../components/MultiStepModal/MultiStepModal.jsx";
+import { cellStyle, headerStyle } from "../../utils/helper.js";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -395,18 +397,7 @@ const Dashboard = () => {
     { id: "preferredTime", label: "Preferred Time", initialWidth: 150, align: "left" }
   ];
 
-  // Styles for table headers and cells
-  const headerStyle = {
-    padding: "12px 8px",
-    fontSize: "14px",
-    fontWeight: "600",
-    background: "#f8f9fa"
-  };
 
-  const cellStyle = {
-    padding: "12px 8px",
-    fontSize: "14px"
-  };
 
   return (
     <Container
