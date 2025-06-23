@@ -194,6 +194,12 @@ const Sidebar = () => {
   return (
     <Box
       sx={{
+        zIndex: 2000, // High z-index
+        position: "fixed", // Make sidebar fixed
+        left: 0,
+        top: 0,
+        height: "100vh",
+        width: isCollapsed ? "80px" : "200px", // Match your sidebar width
         "& .pro-sidebar-inner": {
           background: `${colors.primary[400]} !important`,
         },
@@ -209,9 +215,10 @@ const Sidebar = () => {
         "& .pro-menu-item.active": {
           color: "#6870fa !important",
         },
+        transition: "width 0.2s",
       }}
     >
-      <ProSidebar collapsed={isCollapsed} width={200}>
+      <ProSidebar collapsed={isCollapsed} width={isCollapsed ? 80 : 200}>
         <Menu iconShape="square">
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -274,7 +281,6 @@ const Sidebar = () => {
               selected={selected}
               setSelected={() => logout()}
             />
-
           </Box>
         </Menu>
       </ProSidebar>

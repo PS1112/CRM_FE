@@ -101,7 +101,13 @@ function App() {
         <ToastContainer />
         <div className="app">
           {!hideSidebar && <Sidebar />}
-          <main className="content d-flex align-items-center justify-content-center">
+          <main
+            className="content d-flex align-items-center justify-content-center"
+            style={{
+              marginLeft: hideSidebar ? "80px" : "200px",
+              transition: "margin-left 0.2s"
+            }}
+          >
             <Routes>
               <Route
                 exact

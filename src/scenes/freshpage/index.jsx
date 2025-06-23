@@ -95,9 +95,9 @@ const FreshPage = () => {
  // API call to fetch fresh enquiry data
   const fetchWebsites = async () => {
     try {
-      const res = await getApi(API_PATH.WEBSITES.GET_WEBSITES);
+      const res = await postApi(API_PATH.WEBSITES.GET_WEBSITES,{ page : 1, limit : 10 });
       if (res.status === 200) {
-        setOptions(res.data.map((item) => ({ value: item.id, label: item.name })));
+        setOptions(res.data.data.map((item) => ({ value: item.id, label: item.name })));
       }
     } catch (error) {
       console.log(error, "Error fetching websites");
@@ -185,11 +185,7 @@ const FreshPage = () => {
 const tableData = freshQueriesData.map((item) => formatTableData(item))
 
   return (
-    <Container
-      backgroundColor={colors.primary[900]}
-      className="border-5"
-      padding="0px"
-    >
+    <Container className="border-5" padding="0px">
       <Grid
         container
         alignItems="center"
@@ -259,7 +255,10 @@ const tableData = freshQueriesData.map((item) => formatTableData(item))
                     Add New Enquiry
                   </Button>
 
-                  <MultiStepModal open={modalOpen} handleClose={() => setModalOpen(false)} />
+                  <MultiStepModal
+                    open={modalOpen}
+                    handleClose={() => setModalOpen(false)}
+                  />
                 </Grid>
 
                 <Grid
@@ -280,7 +279,7 @@ const tableData = freshQueriesData.map((item) => formatTableData(item))
                         color: "black",
                         borderRadius: "10px",
                         border: "solid 1px #e2e2e2",
-                        padding: "8px 12px"
+                        padding: "8px 12px",
                       }}
                       placeholder="Search"
                       onChange={(e) => setSearchQuery(e.target.value)}
@@ -305,7 +304,12 @@ const tableData = freshQueriesData.map((item) => formatTableData(item))
                     options={options}
                     onChange={(e) => setStatus(e.value)}
                     placeholder="Select Project"
-                    sx={{zIndex : "10000 !important"}}
+                    styles={{
+                      menu: (provided) => ({
+                        ...provided,
+                        zIndex: 2000, // or any value higher than your overlays
+                      }),
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -316,7 +320,7 @@ const tableData = freshQueriesData.map((item) => formatTableData(item))
               sx={{
                 overflowY: "auto",
                 overflowX: "hidden",
-                padding: "0 20px"
+                padding: "0 20px",
               }}
             >
               {/* Replace the standard table with ResizableTable */}

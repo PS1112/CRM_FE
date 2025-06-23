@@ -443,75 +443,66 @@ const ResizableTable = ({
       ref={tableRef}
       sx={{
         width: "100%",
-        overflowX: "auto",
+        overflowX: "auto", // Enable horizontal scroll for the whole table
         cursor: resizing ? "col-resize" : "default",
         border: "1px solid #dee2e6",
         borderRadius: "4px"
       }}
     >
-      <div style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        maxHeight: "473px" // Set your desired max height
-      }}>
-        {/* Fixed Header */}
-        <div style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 10,
-          backgroundColor: "#9c9fa6",
-          borderBottom: "2px solid #dee2e6"
-        }}>
-          <table className="table text-dark" style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            margin: 0
-          }}>
-            <thead>
-              <tr>
-                {columns.map(column => renderHeaderCell(column))}
-              </tr>
-            </thead>
-          </table>
-        </div>
-
-        {/* Scrollable Body */}
-        <div style={{
-          flex: 1,
+      <div
+        style={{
+          width: "100%",
+          maxHeight: "473px",
+          overflowX: "auto", // Horizontal scroll for both header and body together
           overflowY: "auto",
-          overflowX: "hidden"
-        }}>
-          <table className="table text-dark" style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            margin: 0
-          }}>
-            <tbody>
-              {tableData.length > 0 ? (
-                tableData.map((row, rowIndex) => {
-                  if (!row || !row.id) return null;
+        }}
+      >
+        <table
+          className="table text-dark"
+          style={{
+            width: "max-content",
+            borderCollapse: "separate",
+            borderSpacing: "0 0.5rem", // Uniform horizontal gap
+            margin: 0,
+          }}
+        >
+          <thead>
+            <tr
+              style={{
+                position: "sticky",
+                top: 0,
+                zIndex: 10,
+                backgroundColor: "#9c9fa6",
+                borderBottom: "2px solid #dee2e6",
+              }}
+            >
+              {columns.map(column => renderHeaderCell(column))}
+            </tr>
+          </thead>
+          <tbody>
+            {tableData.length > 0 ? (
+              tableData.map((row, rowIndex) => {
+                if (!row || !row.id) return null;
 
-                  const isSelected = selectedRows.has(row.id);
-                  return (
-                    <tr
-                      key={row.id}
-                      style={{
-                        borderBottom: "1px solid #dee2e6",
-                        backgroundColor: isSelected ? "#e3f2fd" : "transparent",
-                        transition: "background-color 0.2s"
-                      }}
-                    >
-                      {columns.map(column => renderDataCell(rowIndex, column, row))}
-                    </tr>
-                  );
-                })
-              ) : (
-                renderEmptyState()
-              )}
-            </tbody>
-          </table>
-        </div>
+                const isSelected = selectedRows.has(row.id);
+                return (
+                  <tr
+                    key={rowIndex}
+                    style={{
+                      borderBottom: "1px solid #dee2e6",
+                      backgroundColor: isSelected ? "#e3f2fd" : "transparent",
+                      transition: "background-color 0.2s"
+                    }}
+                  >
+                    {columns.map(column => renderDataCell(rowIndex, column, row))}
+                  </tr>
+                );
+              })
+            ) : (
+              renderEmptyState()
+            )}
+          </tbody>
+        </table>
       </div>
     </Box>
   );
