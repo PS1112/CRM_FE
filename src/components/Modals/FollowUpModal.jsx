@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Modal, Box, Typography, TextField, Button, Grid } from "@mui/material";
-import Select from "react-select";
-import Calendar from "react-calendar";
+import { useState, useEffect } from "react";
+import { Modal, Box, Typography, TextField, Button } from "@mui/material";
 import "react-calendar/dist/Calendar.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,8 +12,8 @@ import {
   tableColumns,
 } from "../../utils/helper";
 import ResizableTable from "../ResizeableTable/ResizableTable";
-import PersonalDetailsForm from "../forms/personalDetailsForm";
-import LrsForm from "../forms/lrsForm";
+import LrsForm from "../forms/LrsForm";
+import FollowUpForm from "../forms/FollowUpForms";
 
 const userOptions = [
   { value: "kanwar", label: "Kanwar" },
@@ -41,7 +39,7 @@ const modalStyle = {
   maxWidth: "95vw",
 };
 
-const MultiStepModal = ({ open, handleClose }) => {
+const FollowUpModal = ({ open, handleClose, initialRemarks }) => {
   const [step, setStep] = useState(1);
   const [mobile, setMobile] = useState("");
   const [recordExists, setRecordExists] = useState(false);
@@ -52,21 +50,17 @@ const MultiStepModal = ({ open, handleClose }) => {
     appointmentDate: null,
     followUpDate: null,
   });
-  const [personalDetails, setPersonalDetails] = useState({
-      name: "",
-      email: "",
-      mobile: "7087670183",
-      enquirySource: "A All Websites",
-      priority: "Must Follow",
-      budget: "",
-      requirement: "",
-      propStatus: "",
-      location: "",
-      message: "",
-    appointment: new Date(),
-      siteVisitDone: "No",
-      itsMyCall: "No",
-    });
+  const [followUpData, setFollowUpData] = useState({
+    priority: "",
+    budget: "",
+    requirement: "",
+    propStatus: "",
+    location: "",
+    remarks: initialRemarks, // set from prop
+    appointmentDate: new Date(),
+    siteVisitDone: "No",
+    didNotConnect: false,
+  });
 
   const handleCheckRecord = async () => {
     try {
@@ -96,7 +90,7 @@ const MultiStepModal = ({ open, handleClose }) => {
 
   useEffect(() => {
     if (open) {
-      setStep(1);
+      setStep(2);
       setMobile("");
       setRecordExists(false);
       setLrsData({
@@ -105,20 +99,16 @@ const MultiStepModal = ({ open, handleClose }) => {
         appointmentDate: null,
         followUpDate: null,
       });
-      setPersonalDetails({
-        name: "",
-        email: "",
-        mobile: "",
-        enquirySource: "A All Websites",
-        priority: "Must Follow",
+      setFollowUpData({
+        priority: "",
         budget: "",
         requirement: "",
         propStatus: "",
         location: "",
-        message: "",
-        appointment: new Date(),
+        remarks: initialRemarks, // set from prop
+        appointmentDate: new Date(),
         siteVisitDone: "No",
-        itsMyCall: "No",
+        didNotConnect: false,
       });
     }
   }, [open]);
@@ -128,37 +118,12 @@ const MultiStepModal = ({ open, handleClose }) => {
   };
 
   const handleSave =async () => {
-    console.log(personalDetails,lrsData)
+    console.log(followUpData,lrsData)
     if (!lrsData.assignUser1 || !lrsData.assignUser2 || !lrsData.appointmentDate || !lrsData.followUpDate) {
       toast.error("Please fill all fields");
       return;
     }
-    // try {
-    //   const reqBody =  {
-      // name,
-      // email,
-      // mobile,
-      // Remarks,
-      // submitDate,
-      // trashdate,
-      // website,
-      // usertype,
-      // EnquiryType,
-      // officecode,
-      // role,
-      // status,
-      // IsVisited,
-      // visitedDate,
-    // }
-    // const res = await postApi(API_PATH.ENQUIRY.ADD_ENQUIRY,reqBody)
-    // if (res.status === 200) {
-    //   console.log(data)
-    // toast.success("Inquiry Saved!");
 
-    // } 
-    // } catch (error) {
-    //   console.log(error,"error in adding query")
-    // }
    
     toast.success("Inquiry Saved!");
     handleClose();
@@ -230,10 +195,9 @@ const MultiStepModal = ({ open, handleClose }) => {
           background: "#464791",
         }}
       >
-        {" "}
-        <PersonalDetailsForm
-          personalDetails={personalDetails}
-          setPersonalDetails={setPersonalDetails}
+        <FollowUpForm
+          followUpData={followUpData}
+          setFollowUpData={setFollowUpData}
         />
         <LrsForm
           userOptions={userOptions}
@@ -274,9 +238,9 @@ const MultiStepModal = ({ open, handleClose }) => {
         });
       }}
     >
-      <Box sx={modalStyle}>{step === 1 ? renderStep1() : renderStep2()}</Box>
+      <Box sx={modalStyle}>{renderStep2()}</Box>
     </Modal>
   );
 };
 
-export default MultiStepModal;
+export default FollowUpModal;

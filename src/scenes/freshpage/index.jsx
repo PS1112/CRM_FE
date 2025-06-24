@@ -14,7 +14,7 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
-
+import FollowUpModal from "../../components/Modals/FollowUpModal.jsx"
 import { tokens } from "../../theme";
 import SearchIcon from "@mui/icons-material/Search";
 import Select from "react-select";
@@ -34,7 +34,7 @@ import Moment from "react-moment";
 
 // Import ResizableTable component
 import ResizableTable from "../../components/ResizeableTable/ResizableTable.jsx";
-import MultiStepModal from "../../components/MultiStepModal/MultiStepModal.jsx";
+import MultiStepModal from "../../components/Modals/MultiStepModal.jsx";
 import zIndex from "@mui/material/styles/zIndex.js";
 import { cellStyle, formatTableData, headerStyle, tableColumns } from "../../utils/helper.js";
 
@@ -70,6 +70,7 @@ const FreshPage = () => {
 
   // states
   const [modalOpen, setModalOpen] = useState(false);
+  const [followUpModalOpen, setFollowUpModalOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [status, setStatus] = useState(0);
@@ -238,7 +239,7 @@ const tableData = freshQueriesData.map((item) => formatTableData(item))
                       variant="h4"
                       style={{ color: "#1F2A40", fontWeight: "600" }}
                     >
-                      All Enquiries
+                      Fresh Enquiries
                     </Typography>
                     {/* <Typography variant="h6" style={{ color: "#000000" }}>
                       Welcome to Sarvottam CRM
@@ -330,6 +331,7 @@ const tableData = freshQueriesData.map((item) => formatTableData(item))
                 headerStyle={headerStyle}
                 cellStyle={cellStyle}
                 emptyMessage="No inquiry data found"
+                onCallClick={()=>setFollowUpModalOpen(true)}
               />
             </Box>
           </Box>
@@ -337,6 +339,11 @@ const tableData = freshQueriesData.map((item) => formatTableData(item))
       </Grid>
 
       <ToastContainer />
+      <FollowUpModal 
+      handleClose={() => setFollowUpModalOpen(false)}
+      initialRemarks={""}
+      open={followUpModalOpen}
+      />
     </Container>
   );
 };

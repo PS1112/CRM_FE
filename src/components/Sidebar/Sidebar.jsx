@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
@@ -224,7 +223,7 @@ const Sidebar = () => {
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
-              margin: "5px 0 5px 0",
+              margin: "5px 0",
               color: colors.grey[100],
             }}
           >
