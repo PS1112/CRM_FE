@@ -12,7 +12,7 @@ import {
   tableColumns,
 } from "../../utils/helper";
 import ResizableTable from "../ResizeableTable/ResizableTable";
-import LrsForm from "../forms/LrsForm";
+import LrsForm from "../forms/lrsForm";
 import FollowUpForm from "../forms/FollowUpForms";
 
 const userOptions = [

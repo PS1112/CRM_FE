@@ -19,7 +19,7 @@ import {
 
 import { tokens } from "../../theme";
 import SearchIcon from "@mui/icons-material/Search";
-import Select from "react-select"; // Keep this as is
+import Select from "react-select";
 import AddIcCallIcon from '@mui/icons-material/AddIcCall';
 import DeleteIcon from '@mui/icons-material/Delete';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
@@ -38,7 +38,7 @@ import Moment from "react-moment";
 import ResizableTable from "../../components/ResizeableTable/ResizableTable.jsx";
 
 import moment from "moment";
-import MultiStepModal from "../../components/MultiStepModal/MultiStepModal.jsx";
+import MultiStepModal from "../../components/Modals/MultiStepModal.jsx";
 import { cellStyle, headerStyle } from "../../utils/helper.js";
 
 const Dashboard = () => {

@@ -51,8 +51,15 @@ const FollowUpForm = ({ followUpData, setFollowUpData }) => {
               onChange={handleChange}
               label="Priority"
             >
+              <MenuItem value="Closed Elsewhere">Closed Elsewhere</MenuItem>
+              <MenuItem value="Deal Done">Deal Done</MenuItem>
+              <MenuItem value="Low Budget">Low Budget</MenuItem>
               <MenuItem value="Must Follow">Must Follow</MenuItem>
-              <MenuItem value="Can Skip">Can Skip</MenuItem>
+              <MenuItem value="My Unique Calls">My Unique Calls</MenuItem>
+              <MenuItem value="No Need to Call">No Need to Call</MenuItem>
+              <MenuItem value="Normal Enquiry">Normal Enquiry</MenuItem>
+              <MenuItem value="Not Interested">Not Interested</MenuItem>
+              <MenuItem value="Not Interested">Spam Leads</MenuItem>
             </Select>
           </FormControl>
 
@@ -89,9 +96,11 @@ const FollowUpForm = ({ followUpData, setFollowUpData }) => {
               onChange={handleChange}
               label="Budget"
             >
-              <MenuItem value="10-20 Lakhs">10-20 Lakhs</MenuItem>
-              <MenuItem value="20-50 Lakhs">20-50 Lakhs</MenuItem>
-              <MenuItem value="50+ Lakhs">50+ Lakhs</MenuItem>
+              <MenuItem value="less then 50 lac">Less Then 50 Lac</MenuItem>
+              <MenuItem value="50-80 Lac">50 - 80 Lac </MenuItem>
+              <MenuItem value="80 - 1.25 Cr">80 - 1.25 Cr</MenuItem>
+              <MenuItem value="1.25 - 2 Cr">1.25 - 2 Cr</MenuItem>
+              <MenuItem value="2 Cr Above">2 Cr Above</MenuItem>
             </Select>
           </FormControl>
 
@@ -114,15 +123,16 @@ const FollowUpForm = ({ followUpData, setFollowUpData }) => {
               onChange={handleChange}
               label="Prop. Status"
             >
-              <MenuItem value="New">New</MenuItem>
+              <MenuItem value="Ready to Move">Ready to Move</MenuItem>
               <MenuItem value="Under Construction">Under Construction</MenuItem>
+              <MenuItem value="Under Construction">Does Not Matter</MenuItem>
             </Select>
           </FormControl>
 
           <TextField
             fullWidth
             required
-            label="Location"
+            label="From City"
             name="location"
             value={followUpData.location}
             onChange={handleChange}
