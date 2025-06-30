@@ -12,8 +12,8 @@ import {
   tableColumns,
 } from "../../utils/helper";
 import ResizableTable from "../ResizeableTable/ResizableTable";
-import LrsForm from "../forms/lrsForm";
-import FollowUpForm from "../forms/FollowUpForms";
+import LrsForm from "../Forms/LrsForm";
+import FollowUpForm from "../Forms/FollowUpForms";
 
 const userOptions = [
   { value: "kanwar", label: "Kanwar" },

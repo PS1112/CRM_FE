@@ -1,6 +1,4 @@
 import axios from "axios";
-import { useNavigation } from "../utils/NavigationContext";
-
 let customAxios = axios.create({
   baseURL: "http://localhost:5000/",
 

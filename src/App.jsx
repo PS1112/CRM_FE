@@ -32,6 +32,7 @@ import Website from "./scenes/website";
 import ProjectAssigned from "./scenes/projectassigned";
 import Sidebar from "./components/Sidebar/Sidebar";
 import { ColorModeContext, useMode } from "./theme";
+import { useAuth } from "./context/AuthContext";
 
 const AppContent = ({ children }) => {
   const location = useLocation();
@@ -46,8 +47,10 @@ const AppContent = ({ children }) => {
       <main
         className="content d-flex align-items-center justify-content-center"
         style={{
-          marginLeft:"80px",
+          marginLeft: hideSidebar ? "0px" : "80px",
           transition: "margin-left 0.2s",
+          width: "100vw",
+          minHeight: "100vh",
         }}
       >
         {children}
@@ -57,16 +60,20 @@ const AppContent = ({ children }) => {
 };
 
 function App() {
+  const { isAuthenticated } = useAuth();
+
   const [theme, colorMode] = useMode();
   const token = localStorage.getItem("token");
 
-  const ProtectedRoute = ({ Component }) => {
-    return token ? <Navigate to="/home" replace={true} /> : <Component />;
-  };
+  // Redirect to /home if already logged in
+const AuthRedirectIfLoggedIn = ({ Component }) => {
+  return isAuthenticated ? <Navigate to="/home" replace /> : <Component />;
+};
 
-  const ProtectedRoute1 = ({ isAllowed, redirectPath = "/" }) => {
-    return isAllowed ? <Outlet /> : <Navigate to={redirectPath} replace={true} />;
-  };
+  // Protect routes if not logged in
+ const ProtectedRoute = ({ redirectPath = "/" }) => {
+  return isAuthenticated ? <Outlet /> : <Navigate to={redirectPath} replace />;
+};
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -77,12 +84,13 @@ function App() {
         <AppContent>
           <Routes>
             {/* Public Routes */}
-            <Route path="/signup" element={<ProtectedRoute Component={Signup} />} />
-            <Route path="/" element={<ProtectedRoute Component={Login} />} />
+            <Route path="/" element={<AuthRedirectIfLoggedIn Component={Login} />} />
+            <Route path="/login" element={<AuthRedirectIfLoggedIn Component={Login} />} />
+            <Route path="/signup" element={<AuthRedirectIfLoggedIn Component={Signup} />} />
             <Route path="/forgetpassword" element={<ForgetPassword />} />
 
             {/* Protected Routes */}
-            <Route element={<ProtectedRoute1 isAllowed={!!token} />}>
+            <Route element={<ProtectedRoute isAllowed={!!token} />}>
               <Route path="/home" element={<Dashboard />} />
               <Route path="/leads" element={<Leads />} />
               <Route path="/form" element={<Form />} />
@@ -101,8 +109,8 @@ function App() {
               <Route path="/campaign" element={<Campaign />} />
             </Route>
 
-            {/* Fallback Route (optional) */}
-            {/* <Route path="*" element={<Unauthorized />} /> */}
+            {/* Optional Fallback */}
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </AppContent>
       </ThemeProvider>

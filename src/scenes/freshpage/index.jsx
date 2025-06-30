@@ -1,41 +1,31 @@
 import * as React from "react";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import {
-  Avatar,
   Box,
   Button,
   Container,
   Typography,
   useTheme,
   useMediaQuery,
-  Input,
-  Paper,
   IconButton,
   Grid,
-  TextField,
 } from "@mui/material";
 import FollowUpModal from "../../components/Modals/FollowUpModal.jsx"
 import { tokens } from "../../theme";
 import SearchIcon from "@mui/icons-material/Search";
 import Select from "react-select";
 import { styled } from "@mui/material/styles";
-import Switch, { SwitchProps } from "@mui/material/Switch";
+import Switch from "@mui/material/Switch";
 
 import "./style.css";
 import { ToastContainer } from "react-toastify";
-import { getApi, postApi, putApi } from "../../services/axiosInstance.js";
+import { postApi } from "../../services/axiosInstance.js";
 import { API_PATH } from "../../services/apipath";
-import { Controller, useForm } from "react-hook-form";
-import Modal from "react-modal";
-import { Close } from "@mui/icons-material";
-import { toast } from "react-toastify";
 import AddIcCallIcon from '@mui/icons-material/AddIcCall';
-import Moment from "react-moment";
 
 // Import ResizableTable component
 import ResizableTable from "../../components/ResizeableTable/ResizableTable.jsx";
 import MultiStepModal from "../../components/Modals/MultiStepModal.jsx";
-import zIndex from "@mui/material/styles/zIndex.js";
 import { cellStyle, formatTableData, headerStyle, tableColumns } from "../../utils/helper.js";
 
 const options = [
@@ -109,7 +99,7 @@ const FreshPage = () => {
   const fetchFreshQuery = async () => {
     try {
       const url =API_PATH.ENQUIRY.GET_FRESH_ENQUIRY
-      const res = await getApi(url);
+      const res = await postApi(url);
       if (res.status === 200) {
         setFreshQueriesData(res.data);
       }

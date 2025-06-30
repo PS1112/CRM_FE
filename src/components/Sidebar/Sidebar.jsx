@@ -22,6 +22,7 @@ import LightModeOutlinedIcon from '@mui/icons-material/FormatAlignLeft';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useContext } from "react";
 import { ColorModeContext } from "../../theme";
+import { useAuth } from "../../context/AuthContext";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -68,6 +69,8 @@ const ToolTip = ({title, placement,itemTitle,itemTo, icon,selected,setSelected})
 const Sidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { logout } = useAuth();
+
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const navigate = useNavigate();
@@ -78,11 +81,10 @@ const Sidebar = () => {
     colorMode.toggleColorMode();
   };
 
-  const logout = async () => {
-    localStorage.clear();
-    navigate("/");
-  };
-
+  const handleLogout = () => {
+  logout();
+  navigate("/");
+};
   const sidebarItems = [
     {
       title: "Fresh Page",
@@ -275,10 +277,10 @@ const Sidebar = () => {
             <Item
               title="Logout"
               // to="/"
-              onClick={() => logout()}
+              onClick={() => handleLogout()}
               icon={<LogoutIcon />}
               selected={selected}
-              setSelected={() => logout()}
+              setSelected={() => handleLogout()}
             />
           </Box>
         </Menu>
