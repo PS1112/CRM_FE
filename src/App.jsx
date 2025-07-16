@@ -33,9 +33,12 @@ import ProjectAssigned from "./scenes/projectassigned";
 import Sidebar from "./components/Sidebar/Sidebar";
 import { ColorModeContext, useMode } from "./theme";
 import { useAuth } from "./context/AuthContext";
+import { useState } from "react";
 
 const AppContent = ({ children }) => {
   const location = useLocation();
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   const hideSidebar =
     location.pathname === "/" ||
     location.pathname === "/login" ||
@@ -43,14 +46,15 @@ const AppContent = ({ children }) => {
 
   return (
     <div className="app">
-      {!hideSidebar && <Sidebar />}
+      {!hideSidebar && <Sidebar isCollapsed = {isCollapsed} setIsCollapsed={setIsCollapsed} />}
       <main
         className="content d-flex align-items-center justify-content-center"
         style={{
-          marginLeft: hideSidebar ? "0px" : "12rem",
-          transition: "margin-left 0.2s",
-          width: hideSidebar ? "100vw" : "85vw",
+          marginLeft: hideSidebar ? "0px" : isCollapsed ? "80px" : "15vw",
+          width: isCollapsed ? "93.5vw" : "85vw",
           minHeight: "100vh",
+          transition: "margin-left 0.35s cubic-bezier(0.4,0,0.2,1), width 0.35s cubic-bezier(0.4,0,0.2,1)",
+          willChange: "margin-left, width",
         }}
       >
         {children}

@@ -1,17 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Modal, Box, Typography, TextField, Button } from "@mui/material";
 import "react-calendar/dist/Calendar.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { postApi } from "../../services/axiosInstance";
 import { API_PATH } from "../../services/apipath";
-import {
-  cellStyle,
-  formatTableData,
-  headerStyle,
-  tableColumns,
-} from "../../utils/helper";
-import ResizableTable from "../ResizeableTable/ResizableTable";
 import LrsForm from "../Forms/LrsForm";
 import FollowUpForm from "../Forms/FollowUpForms";
 
@@ -40,93 +33,52 @@ const modalStyle = {
 };
 
 const FollowUpModal = ({ open, handleClose, item }) => {
-  console.log(item, "Item in FollowUpModal");
+  console.log(item)
+  // Set initial values from item, fallback to defaults if not present
   const [step, setStep] = useState(1);
-  const [mobile, setMobile] = useState("");
+  const [mobile, setMobile] = useState(item?.Mobile || "");
   const [recordExists, setRecordExists] = useState(false);
   const [didNotConnect, setDidNotConnect] = useState(false);
   const [tableData, setTableData] = useState([]);
+
+  // LRS Data
   const [lrsData, setLrsData] = useState({
-    assignUser1: null,
-    assignUser2: null,
-    appointmentDate: null,
-    followUpDate: null,
-  });
-  const [followUpData, setFollowUpData] = useState({
-    priority:item.priorityid || "",
-    budget: item.Budget ||"",
-    requirement: item.requirement || "",
-    propStatus: item.propStatus || "",
-    location: item.location || "",
-    remarks: item.lastremarks || "", // set from prop
-    appointmentDate: new Date(),
-    siteVisitDone: "No"
+    assignUser1: item?.LrsAssignTo ? { value: item.LrsAssignTo, label: item.LrsAssignTo } : null,
+    assignUser2: item?.LrsAssignTo2 ? { value: item.LrsAssignTo2, label: item.LrsAssignTo2 } : null,
+    appointmentDate: item?.LrsDate ? new Date(item.LrsDate) : null,
+    followUpDate: item?.LrsFollowDate ? new Date(item.LrsFollowDate) : null,
   });
 
-  const handleCheckRecord = async () => {
-    try {
-      const res = await postApi(API_PATH.ENQUIRY.CHECK_AVAILABILITY, {
-        mobile,
-      });
-      console.log(res, "Response from check availability API");
+  // Follow Up Data
+  const [followUpData, setFollowUpData] = useState({
+    LrsPriority: item?.LrsPriority ?? "",
+    Budget: item?.Budget ?? "",
+    requirement: item?.requirement ?? "",
+    propStatus: item?.propStatus ?? "",
+    location: item?.location ?? "",
+    remarks: item?.lastremarks ?? item?.Remarks ?? "",
+    appointmentDate: item?.appointmentDate ? new Date(item.appointmentDate) : new Date(),
+    siteVisitDone: item?.IsVisited === 1 ? "Yes" : "No",
+  });
+  const handleSave =async () => {
+  try {
+      const url =API_PATH.ENQUIRY.UPDATE_ENQUIRY+ `/${item._id}`;
+      const data = {
+        ...item,
+        ...followUpData,
+        ...lrsData,
+      };
+      const res = await postApi(url,data);
       if (res.status === 200) {
-        setRecordExists(true);
-        const queries = res.data.queries ?? [res.data];
-        setTableData(queries.map(formatTableData));
-        toast.success("Record exists!");
-      } else {
-        setRecordExists(false);
-        toast.error("No record found, you can add a new one.");
+        // setFreshQueriesData(res.data);
+        toast.success("Inquiry Updated!");
       }
     } catch (error) {
-      setRecordExists(false);
-      const errorMsg =
-        error?.response?.data?.message ||
-        error?.message ||
-        "Could not check record, please try again.";
-      toast.error(errorMsg);
-      console.log(error, "Error checking record");
+      console.log(error, "Error fetching fresh enquiry data");
+      toast.error("Error updating enquiry");
     }
-  };
-
-  // useEffect(() => {
-  //   if (open) {
-  //     setStep(2);
-  //     setMobile("");
-  //     setRecordExists(false);
-  //     setLrsData({
-  //       assignUser1: null,
-  //       assignUser2: null,
-  //       appointmentDate: null,
-  //       followUpDate: null,
-  //     });
-  //     setFollowUpData({
-  //       priority: "",
-  //       budget: "",
-  //       requirement: "",
-  //       propStatus: "",
-  //       location: "",
-  //       remarks: "", // set from prop
-  //       appointmentDate: new Date(),
-  //       siteVisitDone: "No",
-  //       didNotConnect: false,
-  //     });
-  //   }
-  // }, [open]);
-
-  const handleNext = () => {
-    setStep(2);
-  };
-
-  const handleSave =async () => {
-    console.log(followUpData,lrsData)
-    if (!lrsData.assignUser1 || !lrsData.assignUser2 || !lrsData.appointmentDate || !lrsData.followUpDate) {
-      toast.error("Please fill all fields");
-      return;
-    }
-
    
-    toast.success("Inquiry Saved!");
+    // toast.success("Inquiry Saved!");
     handleClose();
     setStep(1);
   };

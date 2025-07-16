@@ -66,12 +66,11 @@ const ToolTip = ({title, placement,itemTitle,itemTo, icon,selected,setSelected})
     </Tooltip>
   );
 }        
-const Sidebar = () => {
+const Sidebar = ({isCollapsed, setIsCollapsed}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { logout } = useAuth();
 
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const navigate = useNavigate();
 
@@ -195,12 +194,15 @@ const Sidebar = () => {
   return (
     <Box
       sx={{
-        zIndex: 2000, // High z-index
-        position: "fixed", // Make sidebar fixed
+        zIndex: 2000,
+        position: "fixed",
         left: 0,
         top: 0,
         height: "100vh",
-        width: isCollapsed ? "80px" : "200px", // Match your sidebar width
+        width: isCollapsed ? "80px" : "200px",
+        minWidth: isCollapsed ? "80px" : "200px",
+        transition: "width 0.35s cubic-bezier(0.4,0,0.2,1), min-width 0.35s cubic-bezier(0.4,0,0.2,1)",
+        willChange: "width, min-width",
         "& .pro-sidebar-inner": {
           background: `${colors.primary[400]} !important`,
         },
@@ -216,7 +218,6 @@ const Sidebar = () => {
         "& .pro-menu-item.active": {
           color: "#6870fa !important",
         },
-        transition: "width 0.2s",
       }}
     >
       <ProSidebar collapsed={isCollapsed} width={isCollapsed ? 80 : 200}>

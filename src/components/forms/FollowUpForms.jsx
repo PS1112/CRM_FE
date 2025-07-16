@@ -16,19 +16,22 @@ import "react-calendar/dist/Calendar.css";
 // Separate array for priority options
 
 const priorityOptions = [
-  "Closed Elsewhere",
-  "Deal Done",
-  "Low Budget",
-  "Must Follow",
-  "My Unique Calls",
-  "No Need to Call",
-  "Normal Enquiry",
-  "Not Interested",
-  "Spam Leads"
+  { label: "All", value: 0 },
+  { label: "New", value: 1 },
+  { label: "Need Followed", value: 2 },
+  { label: "Closed Elsewhere", value: 3 },
+  { label: "Not Interested", value: 4 },
+  { label: "Must Follow", value: 5 },
+  { label: "Normal Enquiry", value: 6 },
+  { label: "No Need to Call", value: 7 },
+  { label: "Deal Done", value: 8 },
+  { label: "Transfer to Other User", value: 9 },
+  { label: "Low Budget", value: 10 },
+  { label: "My Unique Calls", value: 11 },
+  { label: "Spam Leads", value: 12 },
 ];
-
 const inputFields = [
-  { label: "Priority", name: "priority", type: "select", options: priorityOptions, visible: true },
+  { label: "Priority", name: "LrsPriority", type: "select", options: priorityOptions, visible: true },
   { label: "New Follow Up Date *", name: "appointmentDate", type: "calendar", visible: true },
   { label: "Is Site Visit Done", name: "siteVisitDone", type: "select", options: ["No", "Yes"], visible: true },
   { label: "Budget", name: "budget", type: "select", options: [
@@ -52,7 +55,7 @@ const getFieldVisibility = (followUpData, didNotConnect) => {
   }
   // If siteVisitDone is "Yes", only show calendar and remarks
   else if (followUpData.siteVisitDone === "Yes") {
-    visibleNames = ["appointmentDate", "remarks","siteVisitDone"];
+    visibleNames = ["appointmentDate", "remarks","siteVisitDone","LrsPriority"];
   }
 
   const visibleFields = inputFields.filter(f => visibleNames.includes(f.name));
@@ -76,8 +79,8 @@ const FollowUpForm = ({ followUpData, setFollowUpData, didNotConnect, setDidNotC
   const { visibleFields } = getFieldVisibility(followUpData, didNotConnect);
 
   // Split left/right for layout
-  const leftFields = visibleFields.filter(f => ["priority", "appointmentDate"].includes(f.name));
-  const rightFields = visibleFields.filter(f => !["priority", "appointmentDate", "remarks"].includes(f.name));
+  const leftFields = visibleFields.filter(f => ["LrsPriority", "appointmentDate"].includes(f.name));
+  const rightFields = visibleFields.filter(f => !["LrsPriority", "appointmentDate", "remarks"].includes(f.name));
   const remarksField = visibleFields.find(f => f.name === "remarks");
 
   return (
@@ -115,11 +118,11 @@ const FollowUpForm = ({ followUpData, setFollowUpData, didNotConnect, setDidNotC
                 >
                   {field.options.map((option, oidx) => (
                     <MenuItem
-                      value={option}
+                      value={option.value || option}
                       key={option}
                       data-index={`${idx + 1}-${oidx}`}
                     >
-                      {option}
+                      {option.label}
                     </MenuItem>
                   ))}
                 </Select>
@@ -157,11 +160,11 @@ const FollowUpForm = ({ followUpData, setFollowUpData, didNotConnect, setDidNotC
                 >
                   {field.options.map((option, oidx) => (
                     <MenuItem
-                      value={option}
-                      key={option}
+                      value={typeof option === "object" ? option.value : option}
+                      key={typeof option === "object" ? option.value : option}
                       data-index={`${idx + leftFields.length + 1}-${oidx}`}
                     >
-                      {option}
+                      {typeof option === "object" ? option.label : option}
                     </MenuItem>
                   ))}
                 </Select>
