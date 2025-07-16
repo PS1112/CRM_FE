@@ -31,7 +31,7 @@ import Moment from "react-moment";
   export const formatTableData = (item) => {
     if (!item) return {};
       return {
-        id: item.id || item.Mobile || item.email || Math.random().toString(36).substr(2, 9), // <-- Add this line
+        id: item.id || item.Mobile || item.email || Math.random().toString(36).substr(2, 9), 
         website: item.website || "N/A",
         name: item.Name || "N/A",
         email: item.email || "N/A",

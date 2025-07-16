@@ -69,6 +69,7 @@ const FreshPage = () => {
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
   const [options, setOptions] = useState([]);
+  const [selectedFollowUpItem, setSelectedFollowUpItem] = useState(null);
   // generic functions to handle events
   
     const handleChange = (event) => {
@@ -321,7 +322,10 @@ const tableData = freshQueriesData.map((item) => formatTableData(item))
                 headerStyle={headerStyle}
                 cellStyle={cellStyle}
                 emptyMessage="No inquiry data found"
-                onCallClick={()=>setFollowUpModalOpen(true)}
+                onCallClick={(_, index) => {
+                  setSelectedFollowUpItem(freshQueriesData[index]); // send unformatted
+                  setFollowUpModalOpen(true);
+                }}
               />
             </Box>
           </Box>
@@ -329,11 +333,14 @@ const tableData = freshQueriesData.map((item) => formatTableData(item))
       </Grid>
 
       <ToastContainer />
-      <FollowUpModal 
-      handleClose={() => setFollowUpModalOpen(false)}
-      initialRemarks={""}
-      open={followUpModalOpen}
-      />
+    { followUpModalOpen &&  <FollowUpModal
+        handleClose={() => {
+          setFollowUpModalOpen(false);
+          setSelectedFollowUpItem(null);
+        }}
+        open={followUpModalOpen}
+        item={selectedFollowUpItem}
+      />}
     </Container>
   );
 };

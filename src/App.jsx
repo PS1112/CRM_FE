@@ -47,9 +47,9 @@ const AppContent = ({ children }) => {
       <main
         className="content d-flex align-items-center justify-content-center"
         style={{
-          marginLeft: hideSidebar ? "0px" : "80px",
+          marginLeft: hideSidebar ? "0px" : "12rem",
           transition: "margin-left 0.2s",
-          width: "100vw",
+          width: hideSidebar ? "100vw" : "85vw",
           minHeight: "100vh",
         }}
       >
