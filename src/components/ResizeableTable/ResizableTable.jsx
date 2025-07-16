@@ -3,6 +3,8 @@ import { Box, Tooltip, Checkbox } from "@mui/material";
 import AddIcCallIcon from '@mui/icons-material/AddIcCall';
 import DeleteIcon from '@mui/icons-material/Delete';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import TruncatedText from "../TruncatedText/TruncatedText";
+
 
 const ResizableTable = ({
   columns = [],
@@ -232,7 +234,7 @@ const ResizableTable = ({
   };
 
   // Render the call action button
-  const renderCallButton = (row) => {
+  const renderCallButton = (row,rowIndex) => {
     if (!row) return null;
 
     return (
@@ -251,7 +253,7 @@ const ResizableTable = ({
               cursor: "pointer",
               transition: "background-color 0.2s"
             }}
-            onClick={() => onCallClick && onCallClick(row)}
+            onClick={() => onCallClick && onCallClick(row,rowIndex)}
           // onMouseEnter={(e) => handleMouseEnter(e, "#45a049")}
           // onMouseLeave={(e) => handleMouseLeave(e, "#4CAF50")}
           >
@@ -375,7 +377,7 @@ const ResizableTable = ({
           cellContent = renderSerialNumber(rowData);
           break;
         case 'action':
-          cellContent = renderCallButton(rowData);
+          cellContent = renderCallButton(rowData,rowIndex);
           break;
         case 'exist':
           cellContent = renderExistBadge(rowData);
@@ -387,7 +389,9 @@ const ResizableTable = ({
           if (column.render && typeof column.render === 'function') {
             cellContent = column.render(rowData);
           } else {
-            cellContent = rowData[column.id] !== undefined ? rowData[column.id] : "-";
+            cellContent = rowData[column.id] !== undefined
+              ? <TruncatedText text={rowData[column.id]} />
+              : "-";
           }
       }
     } catch (error) {

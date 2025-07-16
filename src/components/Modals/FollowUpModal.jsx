@@ -39,10 +39,12 @@ const modalStyle = {
   maxWidth: "95vw",
 };
 
-const FollowUpModal = ({ open, handleClose, initialRemarks }) => {
+const FollowUpModal = ({ open, handleClose, item }) => {
+  console.log(item, "Item in FollowUpModal");
   const [step, setStep] = useState(1);
   const [mobile, setMobile] = useState("");
   const [recordExists, setRecordExists] = useState(false);
+  const [didNotConnect, setDidNotConnect] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [lrsData, setLrsData] = useState({
     assignUser1: null,
@@ -51,15 +53,14 @@ const FollowUpModal = ({ open, handleClose, initialRemarks }) => {
     followUpDate: null,
   });
   const [followUpData, setFollowUpData] = useState({
-    priority: "",
-    budget: "",
-    requirement: "",
-    propStatus: "",
-    location: "",
-    remarks: initialRemarks, // set from prop
+    priority:item.priorityid || "",
+    budget: item.Budget ||"",
+    requirement: item.requirement || "",
+    propStatus: item.propStatus || "",
+    location: item.location || "",
+    remarks: item.lastremarks || "", // set from prop
     appointmentDate: new Date(),
-    siteVisitDone: "No",
-    didNotConnect: false,
+    siteVisitDone: "No"
   });
 
   const handleCheckRecord = async () => {
@@ -88,30 +89,30 @@ const FollowUpModal = ({ open, handleClose, initialRemarks }) => {
     }
   };
 
-  useEffect(() => {
-    if (open) {
-      setStep(2);
-      setMobile("");
-      setRecordExists(false);
-      setLrsData({
-        assignUser1: null,
-        assignUser2: null,
-        appointmentDate: null,
-        followUpDate: null,
-      });
-      setFollowUpData({
-        priority: "",
-        budget: "",
-        requirement: "",
-        propStatus: "",
-        location: "",
-        remarks: initialRemarks, // set from prop
-        appointmentDate: new Date(),
-        siteVisitDone: "No",
-        didNotConnect: false,
-      });
-    }
-  }, [open]);
+  // useEffect(() => {
+  //   if (open) {
+  //     setStep(2);
+  //     setMobile("");
+  //     setRecordExists(false);
+  //     setLrsData({
+  //       assignUser1: null,
+  //       assignUser2: null,
+  //       appointmentDate: null,
+  //       followUpDate: null,
+  //     });
+  //     setFollowUpData({
+  //       priority: "",
+  //       budget: "",
+  //       requirement: "",
+  //       propStatus: "",
+  //       location: "",
+  //       remarks: "", // set from prop
+  //       appointmentDate: new Date(),
+  //       siteVisitDone: "No",
+  //       didNotConnect: false,
+  //     });
+  //   }
+  // }, [open]);
 
   const handleNext = () => {
     setStep(2);
@@ -130,61 +131,8 @@ const FollowUpModal = ({ open, handleClose, initialRemarks }) => {
     setStep(1);
   };
 
-  const renderStep1 = () => (
-    <>
-      <Typography variant="h6" color={"#ffffff"} mb={2}>
-        Kindly First Check Whether Record Exists or Not
-      </Typography>
-      <TextField
-        fullWidth
-        label="Enter Mobile Number"
-        value={mobile}
-        onChange={(e) => setMobile(e.target.value)}
-        type="tel"
-        margin="normal"
-        borderColor="black !important"
-      />
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        mt={2}
-        mb={2}
-        color={"black"}
-      >
-        <Button variant="contained" onClick={handleCheckRecord}>
-          Show Availability
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={handleNext}
-          disabled={!mobile || recordExists}
-        >
-          Add New
-        </Button>
-      </Box>
-
-      {recordExists && (
-        <ResizableTable
-          columns={tableColumns}
-          data={tableData}
-          headerStyle={headerStyle}
-          cellStyle={cellStyle}
-          emptyMessage="No inquiry data found"
-        />
-      )}
-    </>
-  );
 
   const renderStep2 = () => {
-    // const appointmentError =
-    //   appointmentDate &&
-    //   new Date(appointmentDate) <= new Date(today.setDate(today.getDate() + 3));
-
-    // const followUpError =
-    //   followUpDate &&
-    //   new Date(followUpDate) >
-    //     new Date(new Date().setDate(new Date().getDate() + 15));
 
     return (
       <div
@@ -198,26 +146,30 @@ const FollowUpModal = ({ open, handleClose, initialRemarks }) => {
         <FollowUpForm
           followUpData={followUpData}
           setFollowUpData={setFollowUpData}
+          didNotConnect={didNotConnect}
+          setDidNotConnect={setDidNotConnect}
         />
-        <LrsForm
-          userOptions={userOptions}
-         lrsData={lrsData}
-         setLrsData={setLrsData}
-        />
+        {!didNotConnect && (
+          <LrsForm
+            userOptions={userOptions}
+            lrsData={lrsData}
+            setLrsData={setLrsData}
+          />
+        )}
 
         <Box mt={3} display="flex" justifyContent="center">
-        <Button
-          onClick={handleSave}
-          variant="contained"
-          color="success"
-          sx={{ mr: 2 }}
-        >
-          Save
-        </Button>
-        <Button onClick={handleClose} variant="contained" color="error">
-          Cancel
-        </Button>
-      </Box>
+          <Button
+            onClick={handleSave}
+            variant="contained"
+            color="success"
+            sx={{ mr: 2 }}
+          >
+            Save
+          </Button>
+          <Button onClick={handleClose} variant="contained" color="error">
+            Cancel
+          </Button>
+        </Box>
       </div>
     );
   };
