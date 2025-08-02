@@ -19,14 +19,18 @@ import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import Tooltip from '@mui/material/Tooltip';
 import DarkModeOutlinedIcon from '@mui/icons-material/FormatAlignLeft';
 import LightModeOutlinedIcon from '@mui/icons-material/FormatAlignLeft';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { useContext } from "react";
 import { ColorModeContext } from "../../theme";
 import { useAuth } from "../../context/AuthContext";
 
+import "./style.css";
+
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  
   return (
     <MenuItem
       active={selected === title}
@@ -131,7 +135,7 @@ const Sidebar = ({isCollapsed, setIsCollapsed}) => {
       title: "Must Follow",
       placement: "right",
       itemTitle: "Must Follow",
-      itemTo: "/updatequestions",
+      itemTo: "/mustfollow",
       icon: <FollowTheSignsIcon />,
     },
     {
@@ -190,6 +194,13 @@ const Sidebar = ({isCollapsed, setIsCollapsed}) => {
       itemTo: "/add-website",
       icon: <AddCircleOutlineIcon />,
     },
+    {
+      title: "Admin Features",
+      placement: "right",
+      itemTitle: "Admin Features",
+      itemTo: "/adminfeatures",
+      icon: <SupervisorAccountIcon />,
+    },
   ];
   return (
     <Box
@@ -210,7 +221,7 @@ const Sidebar = ({isCollapsed, setIsCollapsed}) => {
           backgroundColor: "transparent !important",
         },
         "& .pro-inner-item": {
-          padding: "5px 10px 5px 35px !important",
+          padding: "5px 10px 5px 10px !important",
         },
         "& .pro-inner-item:hover": {
           color: "#cda83f !important",

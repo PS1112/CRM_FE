@@ -34,6 +34,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import { ColorModeContext, useMode } from "./theme";
 import { useAuth } from "./context/AuthContext";
 import { useState } from "react";
+import AdminOnly from "./scenes/adminonly";
 
 const AppContent = ({ children }) => {
   const location = useLocation();
@@ -46,12 +47,12 @@ const AppContent = ({ children }) => {
 
   return (
     <div className="app">
-      {!hideSidebar && <Sidebar isCollapsed = {isCollapsed} setIsCollapsed={setIsCollapsed} />}
+      {!hideSidebar && <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />}
       <main
         className="content d-flex align-items-center justify-content-center"
         style={{
-          marginLeft: hideSidebar ? "0px" : isCollapsed ? "80px" : "15vw",
-          width: isCollapsed ? "93.5vw" : "85vw",
+          marginLeft: hideSidebar ? "0px" : isCollapsed ? "52px" : "15vw",
+          width: hideSidebar ? "100vw" : isCollapsed ? "96vw" : "85vw",
           minHeight: "100vh",
           transition: "margin-left 0.35s cubic-bezier(0.4,0,0.2,1), width 0.35s cubic-bezier(0.4,0,0.2,1)",
           willChange: "margin-left, width",
@@ -70,14 +71,14 @@ function App() {
   const token = localStorage.getItem("token");
 
   // Redirect to /home if already logged in
-const AuthRedirectIfLoggedIn = ({ Component }) => {
-  return isAuthenticated ? <Navigate to="/home" replace /> : <Component />;
-};
+  const AuthRedirectIfLoggedIn = ({ Component }) => {
+    return isAuthenticated ? <Navigate to="/freshpage" replace /> : <Component />;
+  };
 
   // Protect routes if not logged in
- const ProtectedRoute = ({ redirectPath = "/" }) => {
-  return isAuthenticated ? <Outlet /> : <Navigate to={redirectPath} replace />;
-};
+  const ProtectedRoute = ({ redirectPath = "/" }) => {
+    return isAuthenticated ? <Outlet /> : <Navigate to={redirectPath} replace />;
+  };
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -102,7 +103,7 @@ const AuthRedirectIfLoggedIn = ({ Component }) => {
               <Route path="/callscheduled" element={<Callscheduled />} />
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/add-website" element={<Website />} />
-              <Route path="/updatequestions" element={<Updatequestions />} />
+              <Route path="/mustfollow" element={<Updatequestions />} />
               <Route path="/mylrsmf" element={<MyLrsMf />} />
               <Route path="/opfresh" element={<OpFresh />} />
               <Route path="/opfreshmf" element={<OpFreshMf />} />
@@ -110,6 +111,9 @@ const AuthRedirectIfLoggedIn = ({ Component }) => {
               <Route path="/freshpage" element={<FreshPage />} />
               <Route path="/normal" element={<Normal />} />
               <Route path="/projectassigned" element={<ProjectAssigned />} />
+              
+              <Route path="/adminfeatures" element={<AdminOnly />} />
+
               <Route path="/campaign" element={<Campaign />} />
             </Route>
 
