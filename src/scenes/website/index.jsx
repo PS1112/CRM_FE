@@ -9,6 +9,7 @@ import { useState } from 'react';
 import WebsiteForm from './addwebsiteform';
 import WebsiteList from './websitelist';
 import CreateUsersForm from './createusers';
+import AdditionalSettings from './addtionalsettings'; 
 
 const Website = () => {
   const theme = useTheme();
@@ -27,11 +28,11 @@ const Website = () => {
     },
     {
       label: 'Create Users',
-      component: <CreateUsersForm /> // Updated this line
+      component: <CreateUsersForm /> 
     },
     {
       label: 'Additional Settings',
-      component: <div>Additional Settings Component</div>
+      component: <AdditionalSettings />
     }
   ];
 

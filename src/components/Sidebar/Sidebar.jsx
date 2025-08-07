@@ -21,6 +21,8 @@ import DarkModeOutlinedIcon from '@mui/icons-material/FormatAlignLeft';
 import LightModeOutlinedIcon from '@mui/icons-material/FormatAlignLeft';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
+
 import { useContext } from "react";
 import { ColorModeContext } from "../../theme";
 import { useAuth } from "../../context/AuthContext";
@@ -181,11 +183,18 @@ const Sidebar = ({isCollapsed, setIsCollapsed}) => {
       icon: <HomeWorkIcon />,
     },
     {
-      title: "Campaign",
+      title: "Outsource Leads",
       placement: "right",
-      itemTitle: "Campaign",
+      itemTitle: "Outsource Leads",
       itemTo: "/campaign",
       icon: <FormatAlignLeftIcon />,
+    }, 
+    {
+      title: "Old CRM Data",
+      placement: "right",
+      itemTitle: "Old CRM Data",
+      itemTo: "/olddata",
+      icon: <FindInPageIcon />,
     }, 
     {
       title: "Add Website",

@@ -37,7 +37,7 @@ const Campaign = () => {
                 fontWeight: '600',
                 marginBottom: '10px'
               }}>
-                Outsource Leads
+                Old CRM Data
               </Typography>
 
               {/* Coming Soon Message */}

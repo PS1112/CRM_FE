@@ -28,6 +28,7 @@ import OpFreshSv from "./scenes/opfreshsv";
 import FreshPage from "./scenes/freshpage";
 import Normal from "./scenes/normal";
 import Campaign from "./scenes/campaign";
+import OldCRMData from "./scenes/oldcrmdata";
 import Website from "./scenes/website";
 import ProjectAssigned from "./scenes/projectassigned";
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -115,6 +116,9 @@ function App() {
               <Route path="/adminfeatures" element={<AdminOnly />} />
 
               <Route path="/campaign" element={<Campaign />} />
+
+              <Route path="/olddata" element={<OldCRMData />} />
+
             </Route>
 
             {/* Optional Fallback */}
