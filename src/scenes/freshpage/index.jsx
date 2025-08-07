@@ -14,80 +14,38 @@ import FollowUpModal from "../../components/Modals/FollowUpModal.jsx"
 import { tokens } from "../../theme";
 import SearchIcon from "@mui/icons-material/Search";
 import Select from "react-select";
-import { styled } from "@mui/material/styles";
-import Switch from "@mui/material/Switch";
+import AddIcCallIcon from '@mui/icons-material/AddIcCall';
 
 import "./style.css";
 import { ToastContainer } from "react-toastify";
 import { postApi } from "../../services/axiosInstance.js";
 import { API_PATH } from "../../services/apipath";
-import AddIcCallIcon from '@mui/icons-material/AddIcCall';
 
 // Import ResizableTable component
 import ResizableTable from "../../components/ResizeableTable/ResizableTable.jsx";
 import MultiStepModal from "../../components/Modals/MultiStepModal.jsx";
 import { cellStyle, formatTableData, headerStyle, tableColumns } from "../../utils/helper.js";
 
-const options = [
-  { value: 0, label: "Project" },
-  { value: 1, label: "Project 1" },
-  { value: 2, label: "Project 2" },
-  { value: 3, label: "Project 3" },
-  { value: 4, label: "Project 4" },
-];
-
-const planType = [
-  { value: 0, label: "Both" },
-  { value: 1, label: "Core" },
-  { value: 2, label: "Academic" },
-];
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    zIndex: "10010",
-  },
-};
-
 const FreshPage = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  // Responsive breakpoints
+  const isXs = useMediaQuery(theme.breakpoints.down('sm')); // Mobile
+
   // states
   const [modalOpen, setModalOpen] = useState(false);
   const [followUpModalOpen, setFollowUpModalOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [status, setStatus] = useState(0);
   const [freshQueriesData, setFreshQueriesData] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [success, setSuccess] = React.useState(false);
-  const [error, setError] = React.useState(false);
   const [options, setOptions] = useState([]);
   const [selectedFollowUpItem, setSelectedFollowUpItem] = useState(null);
-  // generic functions to handle events
-  
-    const handleChange = (event) => {
-    setSelectedValue(event.target.value);
-  };
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
- // API call to fetch fresh enquiry data
+  // API call to fetch fresh enquiry data
   const fetchWebsites = async () => {
     try {
-      const res = await postApi(API_PATH.WEBSITES.GET_WEBSITES,{ page : 1, limit : 10 });
+      const res = await postApi(API_PATH.WEBSITES.GET_WEBSITES, { page: 1, limit: 10 });
       if (res.status === 200) {
         setOptions(res.data.data.map((item) => ({ value: item.id, label: item.name })));
       }
@@ -99,7 +57,7 @@ const FreshPage = () => {
   // API call to fetch fresh enquiry data
   const fetchFreshQuery = async () => {
     try {
-      const url =API_PATH.ENQUIRY.GET_FRESH_ENQUIRY
+      const url = API_PATH.ENQUIRY.GET_FRESH_ENQUIRY
       const res = await postApi(url);
       if (res.status === 200) {
         setFreshQueriesData(res.data);
@@ -109,75 +67,22 @@ const FreshPage = () => {
     }
   };
 
-
   React.useEffect(() => {
     fetchWebsites();
     fetchFreshQuery();
   }, []);
 
-
-  const IOSSwitch = styled((props) => (
-    <Switch
-      focusVisibleClassName=".Mui-focusVisible"
-      disableRipple
-      {...props}
-    />
-  ))(({ theme }) => ({
-    width: 42,
-    height: 26,
-    padding: 0,
-    "& .MuiSwitch-switchBase": {
-      padding: 0,
-      margin: 2,
-      transitionDuration: "300ms",
-      "&.Mui-checked": {
-        transform: "translateX(16px)",
-        color: "#fff",
-        "& + .MuiSwitch-track": {
-          backgroundColor:
-            theme.palette.mode === "dark" ? "#2ECA45" : "#65C466",
-          opacity: 1,
-          border: 0,
-        },
-        "&.Mui-disabled + .MuiSwitch-track": {
-          opacity: 0.5,
-        },
-      },
-      "&.Mui-focusVisible .MuiSwitch-thumb": {
-        color: "#33cf4d",
-        border: "6px solid #fff",
-      },
-      "&.Mui-disabled .MuiSwitch-thumb": {
-        color:
-          theme.palette.mode === "light"
-            ? theme.palette.grey[100]
-            : theme.palette.grey[600],
-      },
-      "&.Mui-disabled + .MuiSwitch-track": {
-        opacity: theme.palette.mode === "light" ? 0.7 : 0.3,
-      },
-    },
-    "& .MuiSwitch-thumb": {
-      boxSizing: "border-box",
-      width: 22,
-      height: 22,
-    },
-    "& .MuiSwitch-track": {
-      borderRadius: 26 / 2,
-      backgroundColor: theme.palette.mode === "light" ? "#E9E9EA" : "#39393D",
-      opacity: 1,
-      transition: theme.transitions.create(["background-color"], {
-        duration: 500,
-      }),
-    },
-  }));
-
-  const isNonMobile = useMediaQuery("(min-width:400px)");
-
-const tableData = freshQueriesData.map((item) => formatTableData(item))
+  const tableData = freshQueriesData.map((item) => formatTableData(item))
 
   return (
-    <Container className="border-5" padding="0px">
+    <Container 
+      className="border-5" 
+      maxWidth={false}
+      sx={{
+        padding: { xs: '8px', sm: '16px', md: '20px' },
+        minHeight: '100vh',
+      }}
+    >
       <Grid
         container
         alignItems="center"
@@ -187,20 +92,21 @@ const tableData = freshQueriesData.map((item) => formatTableData(item))
           borderBottomLeftRadius: "16px",
           borderBottomRightRadius: "16px",
           backgroundColor: "#ffffff",
-          height: "95vh",
+          height: { xs: "calc(100vh - 16px)", sm: "95vh" },
+          minHeight: { xs: "600px", sm: "500px" },
         }}
       >
         <Grid
           item
           xs={12}
-          sm={6}
-          md={12}
           sx={{
             backgroundColor: "#F4F7FF",
             borderRadius: "15px",
-            padding: "10px",
+            padding: { xs: "8px", sm: "10px" },
             height: "100%",
-            overflow: "auto",
+            overflow: "hidden",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           <Box
@@ -210,41 +116,63 @@ const tableData = freshQueriesData.map((item) => formatTableData(item))
               borderTopRightRadius: "0px",
               borderBottomLeftRadius: "16px",
               borderBottomRightRadius: "0px",
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
             }}
           >
+            {/* Header Section */}
             <Box
-              p="0 20px"
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
+              sx={{
+                p: { xs: "10px", sm: "0 20px" },
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexShrink: 0,
+              }}
             >
               <Grid
                 container
                 alignItems="center"
-                spacing={0}
-                sx={{ marginBottom: "20px" }}
+                spacing={{ xs: 1, sm: 2 }}
+                sx={{ 
+                  marginBottom: { xs: "10px", sm: "20px" },
+                }}
               >
+                {/* Title Section */}
                 <Grid item xs={12} sm={6} md={3}>
-                  <div>
+                  <Box sx={{ mb: { xs: 1, sm: 0 } }}>
                     <Typography
-                      variant="h4"
-                      style={{ color: "#1F2A40", fontWeight: "600" }}
+                      variant={isXs ? "h5" : "h4"}
+                      sx={{ 
+                        color: "#1F2A40", 
+                        fontWeight: "600",
+                        fontSize: { xs: '0.8rem', sm: '1rem', md: '1.5rem' },
+                        lineHeight: { xs: 1.2, sm: 1.3 },
+                      }}
                     >
                       Fresh Enquiries
                     </Typography>
-                    {/* <Typography variant="h6" style={{ color: "#000000" }}>
-                      Welcome to Sarvottam CRM
-                    </Typography> */}
-                  </div>
+                  </Box>
                 </Grid>
 
+                {/* Add New Enquiry Button */}
                 <Grid item xs={12} sm={6} md={3}>
                   <Button
                     variant="outlined"
                     startIcon={<AddIcCallIcon />}
                     onClick={() => setModalOpen(true)}
+                    sx={{
+                      width: { xs: '100%', sm: 'auto' },
+                      minWidth: { sm: '160px' },
+                      fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                      padding: { xs: '6px 12px', sm: '8px 16px' },
+                      '& .MuiButton-startIcon': {
+                        marginRight: { xs: '4px', sm: '8px' },
+                      },
+                    }}
                   >
-                    Add New Enquiry
+                    {isXs ? 'Add Enquiry' : 'Add New Enquiry'}
                   </Button>
 
                   <MultiStepModal
@@ -253,16 +181,25 @@ const tableData = freshQueriesData.map((item) => formatTableData(item))
                   />
                 </Grid>
 
+                {/* Search Box */}
                 <Grid
                   item
                   xs={12}
                   sm={6}
                   md={3}
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
+                  sx={{
+                    display: "flex",
+                    justifyContent: { xs: 'stretch', md: 'center' },
+                    alignItems: "center",
+                  }}
                 >
-                  <Box display="flex">
+                  <Box 
+                    display="flex" 
+                    sx={{ 
+                      width: { xs: '100%', md: 'auto' },
+                      minWidth: { md: '200px' },
+                    }}
+                  >
                     <input
                       type="text"
                       style={{
@@ -271,76 +208,118 @@ const tableData = freshQueriesData.map((item) => formatTableData(item))
                         color: "black",
                         borderRadius: "10px",
                         border: "solid 1px #e2e2e2",
-                        padding: "8px 12px",
+                        padding: isXs ? "6px 10px" : "8px 12px",
+                        fontSize: isXs ? "14px" : "16px",
+                        minWidth: "120px",
                       }}
                       placeholder="Search"
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
-                    <IconButton type="button" sx={{ p: 1 }}>
+                    <IconButton 
+                      type="button" 
+                      sx={{ 
+                        p: { xs: 0.5, sm: 1 },
+                      }}
+                    >
                       <SearchIcon className="text-secondary" />
                     </IconButton>
                   </Box>
                 </Grid>
 
+                {/* Project Select Dropdown */}
                 <Grid
                   item
                   xs={12}
                   sm={6}
                   md={3}
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="end"
+                  sx={{
+                    display: "flex",
+                    justifyContent: { xs: 'stretch', md: 'center' },
+                    alignItems: "end",
+                  }}
                 >
-                  <Select
-                    className="w-100 text-dark"
-                    options={options}
-                    onChange={(e) => setStatus(e.value)}
-                    placeholder="Select Project"
-                    styles={{
-                      menu: (provided) => ({
-                        ...provided,
-                        zIndex: 2000, // or any value higher than your overlays
-                      }),
-                    }}
-                  />
+                  <Box sx={{ width: { xs: '100%', md: 'auto' }, minWidth: { md: '150px' } }}>
+                    <Select
+                      className="w-100 text-dark"
+                      options={options}
+                      onChange={(e) => setStatus(e.value)}
+                      placeholder="Select Project"
+                      styles={{
+                        menu: (provided) => ({
+                          ...provided,
+                          zIndex: 2000,
+                        }),
+                        control: (provided) => ({
+                          ...provided,
+                          minHeight: isXs ? '36px' : '40px',
+                          fontSize: isXs ? '14px' : '16px',
+                        }),
+                        option: (provided) => ({
+                          ...provided,
+                          fontSize: isXs ? '14px' : '16px',
+                        }),
+                      }}
+                    />
+                  </Box>
                 </Grid>
               </Grid>
             </Box>
 
+            {/* Table Section */}
             <Box
-              height="calc(100% - 100px)"
               sx={{
+                flex: 1,
                 overflowY: "auto",
-                overflowX: "hidden",
-                padding: "0 20px",
+                overflowX: { xs: "auto", md: "hidden" },
+                padding: { xs: "0 10px", sm: "0 20px" },
+                minHeight: 0, // Important for flex child with overflow
               }}
             >
-              {/* Replace the standard table with ResizableTable */}
-              <ResizableTable
-                columns={tableColumns}
-                data={tableData}
-                headerStyle={headerStyle}
-                cellStyle={cellStyle}
-                emptyMessage="No inquiry data found"
-                onCallClick={(_, index) => {
-                  setSelectedFollowUpItem(freshQueriesData[index]); // send unformatted
-                  setFollowUpModalOpen(true);
-                }}
-              />
+              <Box sx={{ 
+                minWidth: { xs: '600px', md: 'auto' }, // Horizontal scroll on mobile if needed
+              }}>
+                <ResizableTable
+                  columns={tableColumns}
+                  data={tableData}
+                  headerStyle={{
+                    ...headerStyle,
+                    fontSize: isXs ? '12px' : headerStyle.fontSize,
+                    padding: isXs ? '8px 4px' : headerStyle.padding,
+                  }}
+                  cellStyle={{
+                    ...cellStyle,
+                    fontSize: isXs ? '12px' : cellStyle.fontSize,
+                    padding: isXs ? '8px 4px' : cellStyle.padding,
+                  }}
+                  emptyMessage="No inquiry data found"
+                  onCallClick={(_, index) => {
+                    setSelectedFollowUpItem(freshQueriesData[index]);
+                    setFollowUpModalOpen(true);
+                  }}
+                />
+              </Box>
             </Box>
           </Box>
         </Grid>
       </Grid>
 
-      <ToastContainer />
-    { followUpModalOpen &&  <FollowUpModal
-        handleClose={() => {
-          setFollowUpModalOpen(false);
-          setSelectedFollowUpItem(null);
+      <ToastContainer 
+        position={isXs ? "top-center" : "top-right"}
+        style={{
+          fontSize: isXs ? '14px' : '16px',
         }}
-        open={followUpModalOpen}
-        item={selectedFollowUpItem}
-      />}
+      />
+      
+      {followUpModalOpen && (
+        <FollowUpModal
+          handleClose={() => {
+            setFollowUpModalOpen(false);
+            setSelectedFollowUpItem(null);
+          }}
+          open={followUpModalOpen}
+          item={selectedFollowUpItem}
+        />
+      )}
     </Container>
   );
 };

@@ -99,7 +99,7 @@ const Updatequestions = () => {
     },
     {
       id: 5,
-      website: 'yamanagar',
+      website: 'yamana group',
       name: 'ChatGPT LRS SV Follow Up',
       mobile: '07807395400',
       submitDate: '26 Jul, 25',

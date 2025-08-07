@@ -13,5 +13,7 @@ export const API_PATH = {
   WEBSITES:{
     ADD_WEBSITE: "api/v1/basic/add-websites",
     GET_WEBSITES: "api/v1/basic/get-websites", 
+    REMOVE_WEBSITES: "api/v1/basic/remove-websites",
+    UPDATE_WEBSITES: "api/v1/basic/update-websites",
   }
 };
